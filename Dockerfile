@@ -25,9 +25,5 @@ RUN npm ci --only=production
 # Expose port
 EXPOSE 3000
 
-# Health check
-HEALTHCHECK --interval=30s --timeout=10s --start-period=60s \
-  CMD curl -f http://localhost:3000/api/health || exit 1
-
 # Start the application
 CMD ["npm", "start"]
