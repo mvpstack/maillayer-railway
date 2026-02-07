@@ -5,8 +5,9 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-# Install dependencies for downloading
-RUN apk add --no-cache curl tar
+# Install dependencies for downloading and PM2
+RUN apk add --no-cache curl tar && \
+    npm install -g pm2
 
 # Download latest release from GitHub
 ARG MAILLAYER_VERSION=latest
@@ -25,5 +26,5 @@ RUN npm ci --only=production
 # Expose port
 EXPOSE 3000
 
-# Start the application
-CMD ["npm", "start"]
+# Start with PM2 (runs both app and workers)
+CMD ["pm2-runtime", "ecosystem.config.js"]
